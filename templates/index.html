@@ -1,0 +1,32 @@
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Michael's Resume</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='index.css') }}">
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='icons/logo.png' ) }}">
+</head>
+<body id="entrypoint">
+    <div id="links">
+        <a href="https://www.linkedin.com/in/michael-airola-122702162/" target="_blank"><img class="icon" src="{{ url_for('static', filename='icons/linkedin.svg') }}"></a>
+        <a href="https://github.com/michaelairola" target="_blank"><img class="icon" src="{{ url_for('static', filename='icons/github.svg') }}"></a>
+        <a href="#" onclick="window.print(); return false;" target="_blank"><img class="icon" src="{{ url_for('static', filename='icons/pdf.svg') }}"></a>
+        <a href="https://blog.michaelairola.com" target="_blank"><img class="icon" src="{{ url_for('static', filename='icons/blogging.svg') }}"></a>
+        <a href="https://www.cookbook.michaelairola.com/" target="_blank"><img class="icon" src="{{ url_for('static', filename='icons/cookbook.svg') }}"></a>
+    </div>
+<div id="resume">
+    <div id="header" class="row">
+        <div class="outside-box"></div>
+        <div id="info" class="right">
+            <div id="name">Michael Airola</div>
+            <div><span>831-210-9163</span> | <span><a target="_blank" href="mailto:me@michaelairola.com">me@michaelairola.com</a></span></div>
+        </div>
+        <div id="initials" class="largeCircleContainer">
+            <div class="circle large-circle"><text id="initials">MA</text></div>
+        </div>
+    </div>
+	{% include "1_professional_summary.html" %}
+	{% include "2_work_experience.html" %}
+	{% include "3_personal_projects.html" %}
+	{% include "4_technical_skills.html" %}
+	{% include "5_education.html"  %}
+</body></html>

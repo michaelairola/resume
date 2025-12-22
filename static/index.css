@@ -24,7 +24,7 @@
 	top: 20%;
 	left: 0%;
 	transform: translateX(-100%);
-	animation: slideIn 2s forwards;
+	animation: slideIn 1s forwards;
 	animation-delay: 2s;
 }
 
