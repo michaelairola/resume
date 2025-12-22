@@ -1,0 +1,270 @@
+
+:root {
+	/*8.27in x 11.69in*/
+	--resume-width: 800px;
+	--resume-height: 1330px;
+
+	--padding-top: 35px;
+	--margin-top: -20px;
+	--resume-margins: 100px auto 100px auto;
+}
+
+#resume {
+	width: var(--resume-width);
+	height: var(--resume-height);
+	margin: var(--resume-margins);
+	box-shadow: 0 0 10px rgba(88,88,95,0.12);
+	border: 1px solid #e8ecf0;
+}
+
+#links {
+	display: flex;
+	flex-direction: column;
+	position: fixed;
+	top: 20%;
+	left: 0%;
+	transform: translateX(-100%);
+	animation: slideIn 2s forwards;
+	animation-delay: 2s;
+}
+
+@keyframes slideIn {
+  to {
+    transform: translateX(0%);
+  }
+}
+
+.icon {
+	position: relative;
+	z-index: 100;
+	width: 70px;
+	margin: 5px 0 0 5px;
+}
+
+/* phone size */
+@media (max-device-width: 480px) {
+	html {
+		width: 100%;
+		height: 100%;
+	}
+	#resume {
+		width: 100%;
+		height: 100%;
+		margin: 0px;
+		padding: 0px;
+		box-shadow: none;
+		font-size: 25px;
+	}
+	#info {
+		width: 720px;
+	}
+	.right {
+		width: 720px;
+	}
+	#professionalSummary {
+		font-size: 22px;
+	}
+	.xpDescription {
+		font-size: 25px!IMPORTANT;
+	}
+	.xpName {
+		font-size: 25px!IMPORTANT;
+	}
+}
+/* computer size */
+@media (min-device-width: 480px) {
+	.row:hover {
+		border: solid 1px #e8ecf0;
+		border-left: solid 1px transparent;
+		box-shadow: 0 0 10px rgba(88,88,95,0.12);
+		background-color: white;
+	}
+	.row:hover .outside-box {
+		border: solid 1px #e8ecf0;
+		border-right: solid 0px transparent;
+		box-shadow: 0 0 10px rgba(88, 88, 95, 0.12);
+		background-color: #fcfcfc;
+	}
+	.row {
+		width: 110%;
+	}
+	.right {
+		width: 670px;
+	}
+	#professionalSummary {
+		font-size: 17px;
+	}
+}
+@media print {
+	#resume {
+		margin: 0px auto 0px auto;
+		box-shadow: none;
+		border: none;
+		height: 100%;
+	}
+	#links {
+		display: none!IMPORTANT;
+	}
+	#iconCred {
+		display: none!IMPORTANT;
+	}
+	#header {
+		height: 40px!IMPORTANT;
+		margin-top: 0px;
+		margin-left: 70px;
+		width: 100%;
+	}
+	.row {
+		width: 100%;
+	}
+	.workList {
+		line-height: 1.5;
+	}
+}
+.row {
+	position: relative;
+	right: 30px;
+	margin-top: var(--margin-top);
+	padding-top: var(--padding-top);
+	padding-bottom: 20px;
+	font-family: Tahoma, sans-serif;
+	display: flex;
+	border: solid 1px transparent;
+}
+
+.outside-box {
+	position: absolute;
+	margin-top: -36px;
+	height: 100%;
+	width: 100px;
+	left: -103px;
+}
+
+.left {
+	width: 110px;
+	padding-left: 15px;
+	color: #0187de;
+	text-align: right;
+	font-size: 15px;
+	font-weight: 700;
+}
+
+.mid {
+	width: 33px;
+}
+
+.line1 {
+	position: relative;
+	width: 0px;
+	height: 100%;
+	margin: auto;
+	margin-top: 1px;
+	background-color: rgb(151, 151, 151);
+	border: solid 1px rgb(151, 151, 151);
+}
+.line2 {
+	position: relative;
+	width: 0px;
+	height: 18px;
+	margin: auto;
+	border: solid 1px rgb(151, 151, 151);
+	background-color: rgb(151, 151, 151);
+}
+
+.smallCircleContainer {
+	width: 15px;
+	height: 15px;
+	margin: auto;
+}
+.largeCircleContainer {
+	width: 65px;
+	height: 65px;
+	margin-right: 10px;
+}
+.circle {
+	background-color: white;
+ 	position: relative;
+	width: 100%;
+	height: 100%;
+	border-radius: 100%;
+}
+.small-circle {
+	margin: auto;
+	border: solid 1px rgb(151, 151, 151);
+}
+.large-circle {
+	border: solid 2px rgb(1, 135, 222);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.xpList {
+	margin: -10px 50px 0 -10px;
+	line-height: 2.0;
+}
+.workList {
+	margin: 0px 50px 0 -10px;
+}
+.xpName {
+	font-size: 20px;
+	color: rgb(1, 135, 222);
+}
+
+.xpTime {
+	margin: 10px;
+}
+.xpDescription {
+	font-size: 18px;
+	line-height: 1.2;
+}
+
+/*IDs*/
+
+#header {
+	display: flex;
+	flex-direction: row-reverse;
+	margin-top: 30px;
+	margin-bottom: 0px;
+}
+
+#info {
+	margin-left: 40px;
+	line-height: 1.5;
+}
+
+#initials {
+	text-transform: uppercase;
+	font-size: 30px;
+}
+
+#name {
+	color: #0187de;
+	font-size: 35px;
+	line-height: 44px;
+	font-family: arial;
+	font-stretch: 100%;
+	font-weight: 400;
+}
+
+#professionalSummary {
+	padding-right: 10%;
+	padding-left: 5%;
+	text-align: center;
+	font-weight: bold;
+	/* font-size: 1px; */
+}
+
+.debug {
+	border: solid 2px red;
+}
+
+/*  */
+a {
+	color: inherit;
+	text-decoration:  none;
+}
+
+a:hover {
+	color: rgb(191, 64, 191);
+}
