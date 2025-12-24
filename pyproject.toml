@@ -1,4 +1,4 @@
-[tools.build]
+[tools.jinja_static]
 templates="templates"
 static="static"
 dist="dist"

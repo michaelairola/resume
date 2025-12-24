@@ -1,0 +1,16 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "jinja_static"
+version = "0.1.0"
+authors = [{name = "Michael Airola", email = "me@michaelairola.com"}]
+description = "A simple static file generator based off of the Jinja templating language."
+requires-python = ">=3.8"
+dependencies = [
+    "Jinja2>=3.1.6"
+]
+
+[project.scripts]
+jinjastatic = "jinja_static:main"
