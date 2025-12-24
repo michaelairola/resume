@@ -43,7 +43,7 @@ def detect_changes_copy_static_file(file_path):
     copy_static_file(file_path)
 
 
-def watch_template_changes():
+def file_watcher():
     for file_path in TEMPLATES.rglob("*"):
         create_task(detect_changes_build_index(file_path))
     for file_path in STATIC_DIR.rglob("*"):

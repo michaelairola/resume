@@ -13,7 +13,7 @@ import mimetypes
 import asyncio
 
 from . import DIST_DIR
-from .watch import watch_template_changes
+from .file_watcher import file_watcher
 
 
 async def receive_http_get_request(reader: StreamReader):
@@ -95,7 +95,7 @@ async def handle_request(reader: StreamReader, writer: StreamWriter):
 
 async def server():
     PORT = 8000
-    watch_template_changes()
+    file_watcher()
     server = await asyncio.start_server(handle_request, "127.0.0.1", PORT)
     print(f"Serving on port {PORT}")
     async with server:
