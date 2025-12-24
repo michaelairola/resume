@@ -1,4 +1,3 @@
-
 import os
 from pathlib import Path
 import shutil
@@ -10,8 +9,10 @@ TEMPLATES = REPO_ROOT / "templates"
 DIST_DIR = REPO_ROOT / "dist"
 STATIC_DIR = REPO_ROOT / "static"
 
+
 def create_dir_if_not_exist():
     DIST_DIR.mkdir(parents=True, exist_ok=True)
+
 
 def rm_file_if_exists(filepath: Path):
     if filepath.exists():
@@ -20,14 +21,18 @@ def rm_file_if_exists(filepath: Path):
         else:
             os.remove(filepath)
 
+
 def build_index() -> str:
     create_dir_if_not_exist()
     INDEX_HTML = DIST_DIR / "index.html"
     rm_file_if_exists(INDEX_HTML)
-    with open(INDEX_HTML, 'w') as f:
-        f.write(Environment(
-        loader=FileSystemLoader(TEMPLATES)
-    ).get_template('index.html').render())
+    with open(INDEX_HTML, "w") as f:
+        f.write(
+            Environment(loader=FileSystemLoader(TEMPLATES))
+            .get_template("index.html")
+            .render()
+        )
+
 
 def copy_static_dir():
     create_dir_if_not_exist()
@@ -42,4 +47,3 @@ def build():
     print("copying static files...")
     copy_static_dir()
     print("Done :)")
-
