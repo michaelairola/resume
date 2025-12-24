@@ -9,32 +9,29 @@ except ImportError:
 
 @dataclass 
 class Config:
-    templates: Path
-    static: Path
-    dist: Path
-    pages: list[Path]
+    templates: Path = field(default="templates")
+    static: Path = field(default="static")
+    dist: Path = field(default="dist")
+    pages: list[Path] = field(default_factory=lambda:["index.html"])
 
-def get_config(project_path=Path.cwd()):
-    """
-    Reads the pyproject.toml file and returns a dictionary.
-    """
-    data = {}
-    try:
-        with open(project_path / "pyproject.toml", "rb") as f:
-            data = tomllib.load(f)
-    except FileNotFoundError:
-        pass
-    except tomllib.TOMLDecodeError as e:
-        print(f"Error decoding TOML file: {e}")
-    jinja_configs = data.get("tools", {}).get("build", {})
-    templates = jinja_configs.get("templates", None) or project_path / "templates"
-    static = jinja_configs.get("static", None) or project_path / "static"
-    dist = jinja_configs.get("dist", None) or project_path / "dist"
-    pages = jinja_configs.get("pages", ["index.html"])
-    return Config(
-        templates=Path(templates),
-        static=Path(static),
-        dist=Path(dist),
-        pages=pages,
-    )
+    @classmethod
+    def from_(cls, file_path_str: str | None = None):
+        file_path = Path(file_path_str) if file_path_str else Path.cwd()
+        if file_path.is_dir():
+            file_path = file_path / "pyproject.toml"
+        pyproject_data = {}
+        try:
+            with open(file_path, "rb") as f:
+                pyproject_data = tomllib.load(f)
+        except FileNotFoundError:
+            print(f"Error finding file '{file_path}'")
+        except tomllib.TOMLDecodeError as e:
+            print(f"Error decoding TOML file: {e}")
+        config_data = pyproject_data.get("tools", {}).get("build", {})
+        dataclass_fields = [ k for k in cls.__dataclass_fields__.keys() ]
+        config_data = {
+            k: Path(v) if isinstance(v, str) else v for k, v in config_data.items()
+            if k in dataclass_fields
+        }
+        return cls(**config_data)
 

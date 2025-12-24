@@ -9,15 +9,16 @@ import traceback
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 
 from .meta import dependency_graph
-from .config import get_config
-config = get_config()
+from .config import Config
 
-def rm_file_if_exists(filepath: Path):
-    if filepath.exists():
-        if filepath.is_dir():
-            shutil.rmtree(filepath)
+config = Config.from_()
+
+def rm_file_if_exists(file_path: Path):
+    if file_path.exists():
+        if file_path.is_dir():
+            shutil.rmtree(file_path)
         else:
-            os.remove(filepath)
+            os.remove(file_path)
 
 def build_page(filename: str) -> int:
     return_status = 0

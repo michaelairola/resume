@@ -12,10 +12,10 @@ from asyncio import (
 import traceback
 import mimetypes
 
-from .config import get_config
+from .config import Config
 from .files import file_watcher
 
-config = get_config()
+config = Config.from_()
 
 async def receive_http_get_request(reader: StreamReader):
     request_data = b""

@@ -1,9 +1,10 @@
 import jinja2
 from jinja2 import meta, FileSystemLoader, Environment
 
-from .config import get_config
+from collections import defaultdict
+from .config import Config
 
-config = get_config()
+config = Config.from_()
 
 def find_all_subtemplates(template_name):
     """
@@ -47,7 +48,6 @@ def find_all_subtemplates(template_name):
     found_templates.discard(template_name)
     return found_templates
 
-from collections import defaultdict
 
 def dependency_graph():                             
     parent_to_child = {
