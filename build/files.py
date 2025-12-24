@@ -8,6 +8,7 @@ import traceback
 
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 
+from .meta import dependency_graph
 from .config import get_config
 config = get_config()
 
@@ -21,7 +22,7 @@ def rm_file_if_exists(filepath: Path):
 def build_page(filename: str) -> int:
     return_status = 0
     config.dist.mkdir(parents=True, exist_ok=True)
-    FILE_PATH = config.dist / filename #"index.html"
+    FILE_PATH = config.dist / filename 
     rm_file_if_exists(FILE_PATH)
     try:
         rendered_file = Environment(loader=FileSystemLoader(config.templates))\
@@ -54,6 +55,7 @@ def copy_static_dir():
 
 
 def build() -> bool:
+    rm_file_if_exists(config.dist)
     print("building index...")
     build_pages()
     print("copying static files...")
@@ -84,10 +86,15 @@ def watch_for_file_changes(func):
 
     return wrapper
 
+graph = dependency_graph()
 
 @watch_for_file_changes
 def detect_changes_build_index(file_path):
-    build_pages()
+    if file_path.name in config.pages:
+        build_page(file_path.name)
+    parent_files = graph.get(file_path.name, [])
+    for parent_file in parent_files:
+        build_page(parent_file)
 
 
 @watch_for_file_changes
