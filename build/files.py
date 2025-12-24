@@ -8,9 +8,8 @@ import traceback
 
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 
-TEMPLATES = Path.cwd() / "templates"
-DIST_DIR = Path.cwd() / "dist"
-STATIC_DIR = Path.cwd() / "static"
+from .config import get_config
+config = get_config()
 
 def rm_file_if_exists(filepath: Path):
     if filepath.exists():
@@ -19,41 +18,44 @@ def rm_file_if_exists(filepath: Path):
         else:
             os.remove(filepath)
 
-
-def build_index() -> int:
+def build_page(filename: str) -> int:
     return_status = 0
-    DIST_DIR.mkdir(parents=True, exist_ok=True)
-    INDEX_HTML = DIST_DIR / "index.html"
-    rm_file_if_exists(INDEX_HTML)
+    config.dist.mkdir(parents=True, exist_ok=True)
+    FILE_PATH = config.dist / filename #"index.html"
+    rm_file_if_exists(FILE_PATH)
     try:
-        built_index = Environment(loader=FileSystemLoader(TEMPLATES))\
-            .get_template("index.html")\
+        rendered_file = Environment(loader=FileSystemLoader(config.templates))\
+            .get_template(filename)\
             .render()
     except Exception as e:
-        built_index = "\n".join([ 
+        rendered_file = "\n".join([ 
             str(e), 
             "-"*40, 
             traceback.format_exc() 
         ])
-        print(built_index)
-        built_index = built_index.replace("\n", "<br/>")
+        print(rendered_file)
+        rendered_file = rendered_file.replace("\n", "<br/>")
         return_status = 1
 
-    with open(INDEX_HTML, "w") as f:
-        f.write(built_index)
+    with open(FILE_PATH, "w") as f:
+        f.write(rendered_file)
     return return_status
+
+def build_pages():
+    for page in config.pages:
+        build_page(page)
 
 
 def copy_static_dir():
-    DIST_DIR.mkdir(parents=True, exist_ok=True)
-    DST = DIST_DIR / "static"
+    config.dist.mkdir(parents=True, exist_ok=True)
+    DST = config.dist / "static"
     rm_file_if_exists(DST)
-    shutil.copytree(STATIC_DIR, DST)
+    shutil.copytree(config.static, DST)
 
 
 def build() -> bool:
     print("building index...")
-    build_index()
+    build_pages()
     print("copying static files...")
     copy_static_dir()
     print("Done :)")
@@ -61,8 +63,8 @@ def build() -> bool:
 
 
 def copy_static_file(file_path: str):
-    DIST_DIR.mkdir(parents=True, exist_ok=True)
-    DST = DIST_DIR / "static" / file_path.name
+    config.dist.mkdir(parents=True, exist_ok=True)
+    DST = config.dist / "static" / file_path.name
     rm_file_if_exists(DST)
     shutil.copy(file_path, DST)
 
@@ -85,7 +87,7 @@ def watch_for_file_changes(func):
 
 @watch_for_file_changes
 def detect_changes_build_index(file_path):
-    build_index()
+    build_pages()
 
 
 @watch_for_file_changes
@@ -94,7 +96,7 @@ def detect_changes_copy_static_file(file_path):
 
 
 def file_watcher():
-    for file_path in TEMPLATES.rglob("*"):
+    for file_path in config.templates.rglob("*"):
         create_task(detect_changes_build_index(file_path))
-    for file_path in STATIC_DIR.rglob("*"):
+    for file_path in config.static.rglob("*"):
         create_task(detect_changes_copy_static_file(file_path))

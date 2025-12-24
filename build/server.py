@@ -12,9 +12,10 @@ from asyncio import (
 import traceback
 import mimetypes
 
-from .files import DIST_DIR
+from .config import get_config
 from .files import file_watcher
 
+config = get_config()
 
 async def receive_http_get_request(reader: StreamReader):
     request_data = b""
@@ -33,8 +34,8 @@ async def receive_http_get_request(reader: StreamReader):
 
 
 def read_file(file_path: Path) -> tuple[str, str]:
-    assert file_path.is_relative_to(DIST_DIR.resolve()), (
-        f"File '{file_path}' is not located in distribution directory '{DIST_DIR}'"
+    assert file_path.is_relative_to(config.dist.resolve()), (
+        f"File '{file_path}' is not located in distribution directory '{config.dist}'"
     )
     with open(file_path, "r") as file:
         file_data = file.read()
@@ -65,7 +66,7 @@ async def handle_request(reader: StreamReader, writer: StreamWriter):
         # TODO make more robust, parse URI with urllib.
         uri = uri.removeprefix("/")
         uri = uri or "index.html"
-        FILE_PATH = (DIST_DIR / uri).resolve()
+        FILE_PATH = (config.dist / uri).resolve()
 
         if FILE_PATH.name == "500.html":
             raise Exception(

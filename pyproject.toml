@@ -1,0 +1,5 @@
+[tools.build]
+templates="templates"
+static="static"
+dist="dist"
+pages=["index.html"]
