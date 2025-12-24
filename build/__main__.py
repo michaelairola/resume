@@ -2,7 +2,7 @@ import argparse
 from asyncio import run
 
 from . import build
-from .server import server
+from . import server
 
 parser = argparse.ArgumentParser(description="Build")
 

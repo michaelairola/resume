@@ -7,13 +7,13 @@ from asyncio import (
     create_task,
     run,
     sleep,
+    start_server,
 )
 import traceback
 import mimetypes
-import asyncio
 
-from . import DIST_DIR
-from .file_watcher import file_watcher
+from .files import DIST_DIR
+from .files import file_watcher
 
 
 async def receive_http_get_request(reader: StreamReader):
@@ -96,7 +96,7 @@ async def handle_request(reader: StreamReader, writer: StreamWriter):
 async def server():
     PORT = 8000
     file_watcher()
-    server = await asyncio.start_server(handle_request, "127.0.0.1", PORT)
+    server = await start_server(handle_request, "127.0.0.1", PORT)
     print(f"Serving on port {PORT}")
     async with server:
         await server.serve_forever()
