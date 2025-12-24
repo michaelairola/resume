@@ -11,8 +11,6 @@ from jinja2 import Environment, FileSystemLoader, select_autoescape
 from .meta import dependency_graph
 from .config import Config
 
-config = Config.from_()
-
 def rm_file_if_exists(file_path: Path):
     if file_path.exists():
         if file_path.is_dir():
@@ -20,7 +18,7 @@ def rm_file_if_exists(file_path: Path):
         else:
             os.remove(file_path)
 
-def build_page(filename: str) -> int:
+def build_page(config: Config, filename: str) -> int:
     return_status = 0
     config.dist.mkdir(parents=True, exist_ok=True)
     FILE_PATH = config.dist / filename 
@@ -43,29 +41,29 @@ def build_page(filename: str) -> int:
         f.write(rendered_file)
     return return_status
 
-def build_pages():
+def build_pages(config: Config):
     for page in config.pages:
-        build_page(page)
+        build_page(config, page)
 
 
-def copy_static_dir():
+def copy_static_dir(config: Config):
     config.dist.mkdir(parents=True, exist_ok=True)
     DST = config.dist / "static"
     rm_file_if_exists(DST)
     shutil.copytree(config.static, DST)
 
 
-def build() -> bool:
+def build(config: Config) -> bool:
     rm_file_if_exists(config.dist)
     print("building index...")
-    build_pages()
+    build_pages(config)
     print("copying static files...")
-    copy_static_dir()
+    copy_static_dir(config)
     print("Done :)")
     return True
 
 
-def copy_static_file(file_path: str):
+def copy_static_file(config: Config, file_path: str):
     config.dist.mkdir(parents=True, exist_ok=True)
     DST = config.dist / "static" / file_path.name
     rm_file_if_exists(DST)
@@ -87,24 +85,24 @@ def watch_for_file_changes(func):
 
     return wrapper
 
-graph = dependency_graph()
 
 @watch_for_file_changes
-def detect_changes_build_index(file_path):
+def detect_changes_build_index(file_path, config, graph):
     if file_path.name in config.pages:
-        build_page(file_path.name)
+        build_page(config, file_path.name)
     parent_files = graph.get(file_path.name, [])
     for parent_file in parent_files:
-        build_page(parent_file)
+        build_page(config, parent_file)
 
 
 @watch_for_file_changes
-def detect_changes_copy_static_file(file_path):
-    copy_static_file(file_path)
+def detect_changes_copy_static_file(file_path, config):
+    copy_static_file(config, file_path)
 
 
-def file_watcher():
+def file_watcher(config: Config):
+    graph = dependency_graph(config)
     for file_path in config.templates.rglob("*"):
-        create_task(detect_changes_build_index(file_path))
+        create_task(detect_changes_build_index(file_path, config, graph))
     for file_path in config.static.rglob("*"):
-        create_task(detect_changes_copy_static_file(file_path))
+        create_task(detect_changes_copy_static_file(file_path, config))

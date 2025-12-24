@@ -15,8 +15,6 @@ import mimetypes
 from .config import Config
 from .files import file_watcher
 
-config = Config.from_()
-
 async def receive_http_get_request(reader: StreamReader):
     request_data = b""
     while True:
@@ -33,7 +31,7 @@ async def receive_http_get_request(reader: StreamReader):
     return method, uri
 
 
-def read_file(file_path: Path) -> tuple[str, str]:
+def read_file(config: Config, file_path: Path) -> tuple[str, str]:
     assert file_path.is_relative_to(config.dist.resolve()), (
         f"File '{file_path}' is not located in distribution directory '{config.dist}'"
     )
@@ -59,45 +57,46 @@ async def send_http_response(
     writer.write(response.encode("utf-8"))
     await writer.drain()
 
+def configure_requestor(config: Config):
+    async def handle_request(reader: StreamReader, writer: StreamWriter):
+        try:
+            method, uri = await receive_http_get_request(reader)
+            # TODO make more robust, parse URI with urllib.
+            uri = uri.removeprefix("/")
+            uri = uri or "index.html"
+            FILE_PATH = (config.dist / uri).resolve()
 
-async def handle_request(reader: StreamReader, writer: StreamWriter):
-    try:
-        method, uri = await receive_http_get_request(reader)
-        # TODO make more robust, parse URI with urllib.
-        uri = uri.removeprefix("/")
-        uri = uri or "index.html"
-        FILE_PATH = (config.dist / uri).resolve()
-
-        if FILE_PATH.name == "500.html":
-            raise Exception(
-                "Internal Server Test",
-                "This should always return an 500 internal server error.",
+            if FILE_PATH.name == "500.html":
+                raise Exception(
+                    "Internal Server Test",
+                    "This should always return an 500 internal server error.",
+                )
+            assert method == "GET", (
+                "This is a Static server! You can only make GET requests."
             )
-        assert method == "GET", (
-            "This is a Static server! You can only make GET requests."
-        )
-        assert FILE_PATH.is_file(), f"No File '{FILE_PATH}' found."
+            assert FILE_PATH.is_file(), f"No File '{FILE_PATH}' found."
 
-        response_body, mime_type = read_file(FILE_PATH)
-        await send_http_response(writer, response_body, content_type=mime_type)
-    except AssertionError as e:
-        response_body = ",".join(e.args)
-        await send_http_response(writer, response_body, status=400)
-    except Exception as e:
-        response_body = "\n".join(
-            ["EXCEPTION:", *e.args, "-" * 40, traceback.format_exc()]
-        )
-        print(response_body)
-        await send_http_response(writer, response_body, status=500)
-    finally:
-        writer.close()
-        await writer.wait_closed()
+            response_body, mime_type = read_file(config, FILE_PATH)
+            await send_http_response(writer, response_body, content_type=mime_type)
+        except AssertionError as e:
+            response_body = ",".join(e.args)
+            await send_http_response(writer, response_body, status=400)
+        except Exception as e:
+            response_body = "\n".join(
+                ["EXCEPTION:", *e.args, "-" * 40, traceback.format_exc()]
+            )
+            print(response_body)
+            await send_http_response(writer, response_body, status=500)
+        finally:
+            writer.close()
+            await writer.wait_closed()
+    return handle_request
 
 
-async def server():
-    PORT = 8000
-    file_watcher()
-    server = await start_server(handle_request, "127.0.0.1", PORT)
-    print(f"Serving on port {PORT}")
+async def server(port: int, config: Config):
+    file_watcher(config)
+    handle_request = configure_requestor(config)
+    server = await start_server(handle_request, "127.0.0.1", port)
+    print(f"Serving on port {port}")
     async with server:
         await server.serve_forever()

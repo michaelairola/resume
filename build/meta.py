@@ -4,9 +4,7 @@ from jinja2 import meta, FileSystemLoader, Environment
 from collections import defaultdict
 from .config import Config
 
-config = Config.from_()
-
-def find_all_subtemplates(template_name):
+def find_all_subtemplates(config: Config, template_name):
     """
     Recursively finds all templates referenced by the given template.
     
@@ -49,9 +47,9 @@ def find_all_subtemplates(template_name):
     return found_templates
 
 
-def dependency_graph():                             
+def dependency_graph(config: Config):                             
     parent_to_child = {
-        page: find_all_subtemplates(page)
+        page: find_all_subtemplates(config, page)
         for page in config.pages
     }
     child_to_parent = defaultdict(set)
