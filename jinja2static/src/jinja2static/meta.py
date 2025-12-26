@@ -1,8 +1,14 @@
+import logging
+
 import jinja2
 from jinja2 import meta, FileSystemLoader, Environment
 
 from collections import defaultdict
 from .config import Config
+
+
+logger = logging.getLogger(__name__)
+
 
 def find_all_subtemplates(config: Config, template_name):
     """
@@ -37,9 +43,11 @@ def find_all_subtemplates(config: Config, template_name):
                 if ref is not None and ref not in found_templates:
                     unprocessed_templates.add(ref)
 
-        except jinja2.exceptions.TemplateNotFound:
+        except jinja2.exceptions.TemplateSyntaxError as e:
+            logger.error(f"Unable to process template: {e}")
             # Handle cases where a referenced template doesn't exist
-            print(f"Warning: Referenced template '{current_template_name}' not found.")
+        except jinja2.exceptions.TemplateNotFound:
+            logger.warning(f"Referenced template '{current_template_name}' not found.")
             continue
     
     # Remove the initial template from the result set if you only want subtemplates

@@ -93,7 +93,9 @@ def configure_requestor(config: Config):
     return handle_request
 
 
-async def server(port: int, config: Config):
+async def server(port: int, config: Config | None):
+    if not config:
+        return
     file_watcher(config)
     handle_request = configure_requestor(config)
     server = await start_server(handle_request, "127.0.0.1", port)

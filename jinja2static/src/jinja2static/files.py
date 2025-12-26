@@ -4,12 +4,15 @@ import shutil
 from functools import wraps
 from asyncio import create_task, sleep
 from datetime import datetime
+import logging
 import traceback
 
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 
 from .meta import dependency_graph
 from .config import Config
+
+logger = logging.getLogger(__name__)
 
 def rm_file_if_exists(file_path: Path):
     if file_path.exists():
@@ -18,8 +21,8 @@ def rm_file_if_exists(file_path: Path):
         else:
             os.remove(file_path)
 
-def build_page(config: Config, filename: str) -> int:
-    return_status = 0
+def build_page(config: Config, filename: str) -> bool:
+    return_status = True
     config.dist.mkdir(parents=True, exist_ok=True)
     FILE_PATH = config.dist / filename 
     rm_file_if_exists(FILE_PATH)
@@ -33,18 +36,16 @@ def build_page(config: Config, filename: str) -> int:
             "-"*40, 
             traceback.format_exc() 
         ])
-        print(rendered_file)
+        logger.info(rendered_file)
+        logger.error(f"Unable to render '{filename}'")
         rendered_file = rendered_file.replace("\n", "<br/>")
-        return_status = 1
-
+        return_status = False
     with open(FILE_PATH, "w") as f:
         f.write(rendered_file)
     return return_status
 
-def build_pages(config: Config):
-    for page in config.pages:
-        build_page(config, page)
-
+def build_pages(config: Config) -> bool:
+    return all(build_page(config, page) for page in config.pages)
 
 def copy_static_dir(config: Config):
     config.dist.mkdir(parents=True, exist_ok=True)
@@ -53,13 +54,14 @@ def copy_static_dir(config: Config):
     shutil.copytree(config.static, DST)
 
 
-def build(config: Config) -> bool:
+def build(config: Config | None, verbose: bool=False) -> bool:
+    if not config:
+        return False
     rm_file_if_exists(config.dist)
-    print("building index...")
-    build_pages(config)
-    print("copying static files...")
+    logger.info("Building...")
     copy_static_dir(config)
-    print("Done :)")
+    if build_pages(config):
+        logger.info("Successfully built.")
     return True
 
 
