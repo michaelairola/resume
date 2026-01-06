@@ -24,9 +24,8 @@
             <div class="circle large-circle"><text id="initials">MA</text></div>
         </div>
     </div>
-	{% include "1_professional_summary.html" %}
-	{% include "2_work_experience.html" %}
-	{% include "3_personal_projects.html" %}
-	{% include "4_technical_skills.html" %}
-	{% include "5_education.html"  %}
+{% import '_row.html' as row %}
+{% for i in rows %}
+    {{ row.render(i.title, i.data) }}
+{% endfor %}
 </body></html>
