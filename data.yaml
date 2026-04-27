@@ -2,7 +2,7 @@ rows:
   - title: "Summary"
     data: |
       <div id="professionalSummary">
-          Ambitious Senior Software Engineer with 8 years of experience building end-to-end products across the full tech stack.
+          Ambitious senior software engineer with 8 years of experience building end-to-end products across the full tech stack.
           Developed web applications, CLI tools, scalable data pipelines, and CI/CD infrastructure for mission-critical systems in the aerospace and healthcare industries.
           Passionate about solving customer problems through high-quality code.
       </div>
@@ -12,45 +12,81 @@ rows:
         <li class="xpItem">
             <div>
                 <span class="xpName">
-                Senior Technical Staff at <a target="_blank" href="https://aerospace.org/">The Aerospace Organization</a>
+                    Senior Technical Staff at <a target="_blank" href="https://aerospace.org/">The Aerospace Organization</a>
                 </span>
                 (2022-present):
             </div>
             <div class="xpDescription">
                 <ul>
-                    <li>Manage the end-to-end lifecycle of web and CLI applications that fulfills customer needs in a timely manner.</li>
-                    <li>Translate complex technical limitations into clear actionable insights for stakeholders to align project requirements.</li>
-                    <li>Architect complex satellite communication simulators to model system-level interactions and critical requirements.</li>
+                    <li>
+                        Manage the end-to-end lifecycle of web applications that provide data-driven insights to customers in the aerospace field.
+                    </li>
+                    <li>
+                        Leverage industry-standard practices of microservice architectures, CI/CD pipelines, and containerization to ship high-quality features on a regular cadence.
+                    </li>
+                    <li>
+                        Develop a full-stack web application featuring an automated Retrieval-Augmented Generation (RAG) pipeline that ingests diverse user datasets to generate high quality, context-aware embeddings and real-time insights.
+                    </li>
+                    <li>
+                        Engineer satellite communication system simulators that measure system success rates and provide verification/validation testing on third party communication systems.
+                    </li>
+                    <li>
+                        Lead a team of 4 engineers in building a role-based access control system and single-sign-on authentication integration.
+                    </li>
+                    <li>
+                        Translate user-facing requirements into easily actionable tasks for stakeholders and developers to align on timelines and deliverables using JIRA, a project management platform.
+                    </li>
+                    <li>
+                        Partnered with cross-functional teams to launch a centralized internal PyPI index, establishing company-wide standards for python module versioning and facilitating the seamless sharing of resusable code accrosss all internal projects.
+                    </li>
                 </ul>
             </div>
         </li>
         <li class="xpItem">
             <div>
                 <span class="xpName">
-                Business Intelligence Developer at <a target="_blank" href="https://www.aspirehealthplan.org/">Aspire</a>
+                    Business Intelligence Developer at <a target="_blank" href="https://www.aspirehealthplan.org/">Aspire</a>
                 </span>
                 (2021-2022):
             </div>
             <div class="xpDescription">
                 <ul>
-                    <li>Developed and maintained an Enterprise Data Warehouse to support all organizational business needs.</li>
-                    <li>Gathered client requirements and developed tailored queries using a customer-centric approach.</li>
-                    <li>Designed and developed a C++ data-extraction pipeline runner featuring monitoring, validation, and scheduling.</li>
+                    <li>
+                        Developed and maintained an Enterprise Data Warehouse to support all organizational business needs.
+                    </li>
+                    <li>
+                        Used SQL to design and manage relational databases, applying core data modeling principles like normalization and schema design to ensure data integrity and optimize query performance.
+                    </li>
+                    <li>
+                        Gathered client requirements and developed tailored queries using a customer-centric approach.
+                    </li>
+                    <li>
+                        Designed and developed a C++ data-extraction pipeline runner featuring monitoring, validation, and scheduling.
+                    </li>
                 </ul>
             </div>
         </li>
         <li class="xpItem">
             <div>
                 <span class="xpName">
-                Full Stack Engineer at Defie
+                    Full Stack Engineer at Defie
                 </span>
                 (2018-2021):
             </div>
             <div class="xpDescription">
                 <ul>
-                    <li>Built and shipped features for an <a target="_blank" href="https://en.wikipedia.org/wiki/Enterprise_resource_planning">Enterprise Resource Planning (ERP) software.</a></li>
-                    <li>Designed over 40 resource-oriented data models and oversaw their lifecycle implementations.</li>
-                    <li>Refactored a large-scale legacy GoLang codebase (134k LOC), resulting in a 66% reduction of total lines of code while improving standardization.</li>
+                    <li>
+                        Built and shipped features for an <a target="_blank" href="https://en.wikipedia.org/wiki/Enterprise_resource_planning">Enterprise Resource Planning (ERP) software</a>.
+                    </li>
+                    <li>
+                        Developed refined user experiences using frontend industry-standard practices such as component-based modules, lifecycle methods, and state management patterns.
+                    </li>
+                    <li>
+                        Streamlined existing CI/CD infrastructure, replacing over 40 different deployment processes into 1 easily maintainable helm chart.
+                    </li>
+                    <li>
+                        Refactored a large-scale legacy GoLang codebase (134k LOC), resulting in a 66% reduction of total lines of code while improving standardization.
+                    </li>
                 </ul>
             </div>
         </li>
@@ -59,39 +95,54 @@ rows:
     data: |
       <ul class="xpDescription" style="margin-top:0px;margin-bottom:0px;">
           <li>
-              Hardware/Software Integration: Created a N64 game cartridge runnable on original hardware using C++, RaspberryPi Zero, and FreeCAD.
+                Authored and developed Jinja2Static (<a target="_blank" href="https://pypi.org/project/jinja2static/">https://pypi.org/project/jinja2static/</a>), a simple python package for generating static websites from Jinja2 templates.
           </li>
           <li>
-              IoT Development: Developed a wireless remote for home automation and a wireless sensor system for garden moisture monitoring using ESP8622.
+              Created an N64 game by developing software with C++, deploying it to a RaspberryPi Zero PCB, and 3D-printing a game cartridge shell using FreeCAD. This was runnable on an original Nintendo 64.
+          </li>
+          <li>
+              Developed a wireless remote for home automation and a wireless sensor system for garden moisture monitoring using ESP8622.
           </li>
       </ul>
   - title: Technical Skills
     data: |
-      <div style="margin-bottom:5px;">
-          <b>Frontend</b>: 
-              <a target="_blank" href="https://react.dev/">React/Next.js</a> (8 yrs), 
-              <a target="_blank" href="https://www.w3schools.com/html/">HTML/CSS</a> (8 yrs), 
-              <a target="_blank" href="https://www.w3schools.com/js/">Javascript</a> (8 yrs)
-      </div>
-      <div style="margin-bottom:5px;">
-          <b>Backend and Data</b>: 
-              <a target="_blank" href="https://www.python.org/">Python</a> (7 yrs),
-              <a target="_blank" href="https://en.wikipedia.org/wiki/SQL">SQL</a> (7 yrs),
-              <a target="_blank" href="https://nodejs.org/en">Node.js</a> (8 yrs)
-              <a target="_blank" href="https://go.dev/">GoLang</a> (6 yrs),
-      </div>
-      <div style="margin-bottom:5px;">
-          <b>DevOps &amp; Infrastructure</b>:
-              <a target="_blank" href="https://www.atlassian.com/software/jira">JIRA</a> (4 yrs),
-              <a target="_blank" href="https://git-scm.com/">Git</a> (8 yrs),
-              <a target="_blank" href="https://kubernetes.io/">Kubernetes</a> (8 yrs),
-              <a target="_blank" href="https://en.wikipedia.org/wiki/Bash_(Unix_shell)">Unix</a> (8 yrs),
+      <div style="display:flex;flex-direction:row;justify-content:space-between;padding-right:100px;padding-left:40px">
+        <div>
+            <div>
+                <b>Frontend</b>:
+            </div>
+            <ul>
+                <li><a target="_blank" href="https://react.dev/">React/Next.js</a> (8 yrs)</li>
+                <li><a target="_blank" href="https://www.w3schools.com/html/">HTML</a> (8 yrs)</li>
+                <li><a target="_blank" href="https://www.w3schools.com/css/">CSS</a> (8 yrs)</li>
+                <li><a target="_blank" href="https://www.w3schools.com/js/">Javascript</a> (8 yrs)</li>
+            </ul>
+        </div>
+        <div >
+            <div>
+                <b>Backend and Data</b>:
+            </div>
+            <ul>
+                <li><a target="_blank" href="https://www.python.org/">Python</a> (7 yrs)</li>
+                <li><a target="_blank" href="https://en.wikipedia.org/wiki/SQL">SQL</a> (7 yrs)</li>
+                <li><a target="_blank" href="https://nodejs.org/en">Node.js</a> (8 yrs)</li>
+                <li><a target="_blank" href="https://go.dev/">GoLang</a> (6 yrs)</li>
+            </ul>
+        </div>
+        <div>
+            <b>DevOps &amp; Infrastructure</b>:
+            <ul>
+                <li><a target="_blank" href="https://www.atlassian.com/software/jira">JIRA</a> (4 yrs)</li>
+                <li><a target="_blank" href="https://git-scm.com/">Git</a> (8 yrs)</li>
+                <li><a target="_blank" href="https://kubernetes.io/">Kubernetes</a> (8 yrs)</li>
+                <li><a target="_blank" href="https://en.wikipedia.org/wiki/Bash_(Unix_shell)">Unix</a> (8 yrs)</li>
+            <ul>
+        </div>
       </div>
   - title: Education
     data: |
-      <span style="font-weight:bold;">B.S. Mathematics (Physics Minor) |
+      <span style="font-weight:bold;">Bachelor of Science in Mathematics, Minor in Physics</span> |
           <a target="_blank" href="https://www.math.ucsb.edu/">UC Santa Barbara</a> 2016.
-      </span>
 
   
 
